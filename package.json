@@ -12,7 +12,7 @@
     "gatsby-plugin-netlify": "2.1.26",
     "gatsby-plugin-netlify-cache": "1.2.0",
     "gatsby-plugin-no-sourcemaps": "2.1.1",
-    "gatsby-plugin-offline": "3.0.22",
+    "gatsby-plugin-offline": "3.0.23",
     "gatsby-plugin-preload-fonts": "1.0.17",
     "gatsby-plugin-react-helmet": "3.1.15",
     "gatsby-plugin-remove-trailing-slashes": "2.1.14",
