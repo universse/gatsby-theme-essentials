@@ -38,13 +38,15 @@ module.exports = ({
   enableApollo = false,
   enableColorblindFilters = false,
   enableOffline = false,
+  enablePagesDev = false,
   enablePreloadFonts = false,
   enableRedux = false,
   enableWorkerize = false
 } = {}) => {
-  let devPlugins = [
-    'gatsby-theme-essentials/gatsby-plugin-react-axe',
-    {
+  const devPlugins = []
+
+  if (process.env.NODE_ENV === 'development') {
+    devPlugins.push('gatsby-theme-essentials/gatsby-plugin-react-axe', {
       resolve: 'gatsby-plugin-accessibilityjs',
       options: {
         injectStyles: `
@@ -55,35 +57,19 @@ module.exports = ({
         errorClassName: 'accessibility-error',
         onError: error => console.log(error)
       }
-    }
-  ]
+    })
 
-  enableColorblindFilters && devPlugins.push('gatsby-plugin-colorblind-filters')
+    enableColorblindFilters &&
+      devPlugins.push('gatsby-plugin-colorblind-filters')
 
-  devPlugins = process.env.NODE_ENV === 'development' ? devPlugins : []
-
-  const deployPlugins = process.env.NETLIFY
-    ? [
-        'gatsby-plugin-netlify-cache',
-        {
-          resolve: 'gatsby-plugin-netlify',
-          options: {
-            headers: {
-              '/*': ['Referrer-Policy: strict-origin-when-cross-origin']
-            }
-          }
+    enablePagesDev &&
+      devPlugins.push({
+        resolve: 'gatsby-plugin-page-creator',
+        options: {
+          path: `${process.cwd()}/src/pages-dev`
         }
-      ]
-    : [
-        {
-          resolve: 'gatsby-plugin-zeit-now',
-          options: {
-            globalHeaders: {
-              'referrer-policy': 'strict-origin-when-cross-origin'
-            }
-          }
-        }
-      ]
+      })
+  }
 
   const plugins = [
     ...devPlugins,
@@ -117,8 +103,7 @@ module.exports = ({
       }
     },
     'gatsby-plugin-remove-trailing-slashes',
-    'gatsby-plugin-no-sourcemaps',
-    ...deployPlugins
+    'gatsby-plugin-no-sourcemaps'
   ]
 
   enableAnalytics &&
@@ -132,6 +117,32 @@ module.exports = ({
   enablePreloadFonts && plugins.push('gatsby-plugin-preload-fonts')
   enableRedux && plugins.push('gatsby-plugin-redux')
   enableWorkerize && plugins.push('gatsby-plugin-workerize-loader') // options: { preloads: [] }
+
+  const deployPlugins = []
+
+  if (process.env.NETLIFY) {
+    deployPlugins.push('gatsby-plugin-netlify-cache', {
+      resolve: 'gatsby-plugin-netlify',
+      options: {
+        headers: {
+          '/*': ['Referrer-Policy: strict-origin-when-cross-origin']
+        }
+      }
+    })
+  }
+
+  if (process.env.AWS_REGION) {
+    deployPlugins.push({
+      resolve: 'gatsby-plugin-zeit-now',
+      options: {
+        globalHeaders: {
+          'referrer-policy': 'strict-origin-when-cross-origin'
+        }
+      }
+    })
+  }
+
+  plugins.push(...deployPlugins)
 
   return { plugins }
 }
