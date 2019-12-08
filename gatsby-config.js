@@ -37,6 +37,7 @@ module.exports = ({
   enableAnalytics = false,
   enableApollo = false,
   enableColorblindFilters = false,
+  enableManifest = false,
   enableOffline = false,
   enablePagesDev = false,
   enablePreloadFonts = false,
@@ -104,6 +105,7 @@ module.exports = ({
     },
     'gatsby-plugin-remove-trailing-slashes',
     'gatsby-plugin-no-sourcemaps'
+    // 'gatsby-plugin-sitemap'
   ]
 
   enableAnalytics &&
@@ -113,6 +115,8 @@ module.exports = ({
     })
 
   enableApollo && plugins.push('gatsby-plugin-apollo-client') // options: { uri: '' }
+  enableManifest &&
+    plugins.push({ resolve: 'gatsby-plugin-manifest', options: enableManifest })
   enableOffline && plugins.push('gatsby-plugin-offline') // options
   enablePreloadFonts && plugins.push('gatsby-plugin-preload-fonts')
   enableRedux && plugins.push('gatsby-plugin-redux')
