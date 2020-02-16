@@ -146,10 +146,10 @@ function logViewPage({ location, prevLocation }) {
 }
 
 export const onRouteUpdate = ({ location, prevLocation }, options = {}) => {
-  session.appId = options.appId
-  endpoint = options.endpoint
-
   if (!prevLocation) {
+    session.appId = options.appId
+    endpoint = options.endpoint
+
     get(key).then(data => {
       data && send(data)
       del(key)

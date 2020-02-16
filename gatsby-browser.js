@@ -1,3 +1,2 @@
 import 'focus-visible'
-
-import './_utilities.scss'
+import './styles/index.scss'

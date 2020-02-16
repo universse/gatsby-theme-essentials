@@ -88,7 +88,7 @@ module.exports = ({
               value = value.split('.').reduce((obj, key) => obj[key], tokens)
             }
 
-            if (`${value}` === `${parseInt(value, 10)}`) {
+            if (`${value}` === `${+value}`) {
               value = `${value / 16}rem`
             }
 
