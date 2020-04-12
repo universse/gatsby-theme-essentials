@@ -1,11 +1,19 @@
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const { resolve } = require('path')
 
+exports.createSchemaCustomization = ({ actions }) => {
+  actions.createTypes(`
+    type SitePage implements Node @dontInfer {
+      path: String!
+    }
+  `)
+}
+
 exports.onCreateWebpackConfig = ({
   actions: { replaceWebpackConfig },
   getConfig,
   stage,
-  store
+  store,
 }) => {
   const config = getConfig()
 
@@ -13,7 +21,7 @@ exports.onCreateWebpackConfig = ({
     config.plugins.push(
       new BundleAnalyzerPlugin({
         analyzerMode: 'server',
-        analyzerPort: '3001'
+        analyzerPort: '3001',
       })
     )
   }
