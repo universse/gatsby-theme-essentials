@@ -16,12 +16,12 @@ const tokens = {
     xs: '0em' /* 0px */,
     sm: '30em' /* 480px */,
     md: '64em' /* 1024px */,
-    lg: '75em' /* 1200px */
+    lg: '75em' /* 1200px */,
   },
   typography: {
     font: "'Open Sans', sans-serif",
     text: '1rem',
-    title: '2rem'
+    title: '2rem',
   },
   colors: {
     primary: '#2c97de',
@@ -29,25 +29,29 @@ const tokens = {
     warning: '#f2c500',
     success: '#1fce6d',
     danger: '#e94b35',
-    error: '#e94b35'
-  }
+    error: '#e94b35',
+  },
 }
 
 module.exports = ({
   enableAnalytics = false,
   enableApollo = false,
+  enableAxe,
   enableColorblindFilters = false,
   enableManifest = false,
   enableOffline = false,
   enablePagesDev = false,
   enablePreloadFonts = false,
   enableRedux = false,
-  enableWorkerize = false
+  enableWorkerize = false,
 } = {}) => {
   const devPlugins = []
 
   if (process.env.NODE_ENV === 'development') {
-    devPlugins.push('gatsby-theme-essentials/gatsby-plugin-react-axe', {
+    enableAxe &&
+      devPlugins.push('gatsby-theme-essentials/gatsby-plugin-react-axe')
+
+    devPlugins.push({
       resolve: 'gatsby-plugin-accessibilityjs',
       options: {
         injectStyles: `
@@ -56,8 +60,8 @@ module.exports = ({
           }
         `,
         errorClassName: 'accessibility-error',
-        onError: error => console.log(error)
-      }
+        onError: error => console.log(error),
+      },
     })
 
     enableColorblindFilters &&
@@ -67,8 +71,8 @@ module.exports = ({
       devPlugins.push({
         resolve: 'gatsby-plugin-page-creator',
         options: {
-          path: `${process.cwd()}/src/pages-dev`
-        }
+          path: `${process.cwd()}/src/pages-dev`,
+        },
       })
   }
 
@@ -93,25 +97,25 @@ module.exports = ({
             }
 
             return sassUtils.castToSass(value)
-          }
-        }
-      }
+          },
+        },
+      },
     },
     {
       resolve: 'gatsby-plugin-emotion',
       options: {
-        labelFormat: '[filename]--[local]'
-      }
+        labelFormat: '[filename]--[local]',
+      },
     },
     'gatsby-plugin-remove-trailing-slashes',
-    'gatsby-plugin-no-sourcemaps'
+    'gatsby-plugin-no-sourcemaps',
     // 'gatsby-plugin-sitemap'
   ]
 
   enableAnalytics &&
     plugins.push({
       resolve: 'gatsby-theme-essentials/gatsby-plugin-analytics',
-      options: enableAnalytics
+      options: enableAnalytics,
     })
 
   enableApollo && plugins.push('gatsby-plugin-apollo-client') // options: { uri: '' }
@@ -129,9 +133,9 @@ module.exports = ({
       resolve: 'gatsby-plugin-netlify',
       options: {
         headers: {
-          '/*': ['Referrer-Policy: strict-origin-when-cross-origin']
-        }
-      }
+          '/*': ['Referrer-Policy: strict-origin-when-cross-origin'],
+        },
+      },
     })
   }
 
@@ -140,9 +144,9 @@ module.exports = ({
       resolve: 'gatsby-plugin-zeit-now',
       options: {
         globalHeaders: {
-          'referrer-policy': 'strict-origin-when-cross-origin'
-        }
-      }
+          'referrer-policy': 'strict-origin-when-cross-origin',
+        },
+      },
     })
   }
 
