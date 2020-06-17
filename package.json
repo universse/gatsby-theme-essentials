@@ -20,7 +20,7 @@
     "gatsby-plugin-sass": "2.3.4",
     "gatsby-plugin-sharp": "2.6.11",
     "gatsby-plugin-sitemap": "2.4.5",
-    "gatsby-plugin-workerize-loader": "1.4.0",
+    "gatsby-plugin-workerize-loader": "1.5.0",
     "gatsby-plugin-zeit-now": "0.3.0",
     "gatsby-source-filesystem": "2.3.11",
     "gatsby-transformer-sharp": "2.5.5",
