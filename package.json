@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "main": "index.js",
   "dependencies": {
-    "dotenv": "8.2.0",
+    "dotenv": "8.6.0",
     "focus-visible": "5.2.0",
     "gatsby-plugin-accessibilityjs": "1.0.3",
     "gatsby-plugin-colorblind-filters": "0.2.3",
